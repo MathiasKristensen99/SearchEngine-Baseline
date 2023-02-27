@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleSearch", "ConsoleSea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{CE712703-C16E-4CB9-B118-A07B582E45DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{81EE045E-FEF6-42E0-8471-EDF5304FF26B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{81EE045E-FEF6-42E0-8471-EDF5304FF26B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CE712703-C16E-4CB9-B118-A07B582E45DC} = {CE712703-C16E-4CB9-B118-A07B582E45DC}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{CEE348A8-C66C-4408-B842-691C7D8AB1F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +41,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81EE045E-FEF6-42E0-8471-EDF5304FF26B} = {CEE348A8-C66C-4408-B842-691C7D8AB1F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EBC1CCA-0BFD-4D41-AE7E-1157EA73535D}
