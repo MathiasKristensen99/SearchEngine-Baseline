@@ -2,10 +2,10 @@
 {
     public interface IDatabase
     {
-        void Execute(string sql);
-        List<KeyValuePair<int, int>> GetDocuments(List<int> wordIds);
+        Task Execute(string sql);
+        Task<List<KeyValuePair<int, int>>> GetDocuments(List<int> wordIds);
         string AsString(List<int> x);
-        Dictionary<string, int> GetAllWords();
-        List<string> GetDocDetails(List<int> docIds);
+        Task<Dictionary<string, int>> GetAllWords();
+        Task<List<string>> GetDocDetails(List<int> docIds);
     }
 }

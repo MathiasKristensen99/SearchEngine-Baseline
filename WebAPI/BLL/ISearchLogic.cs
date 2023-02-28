@@ -3,7 +3,7 @@
     public interface ISearchLogic
     {
         int GetIdOf(string word);
-        List<KeyValuePair<int, int>> GetDocuments(List<int> wordIds);
-        List<string> GetDocumentDetails(List<int> docIds);
+        Task<List<KeyValuePair<int, int>>> GetDocuments(List<int> wordIds);
+        Task<List<string>> GetDocumentDetails(List<int> docIds);
     }
 }

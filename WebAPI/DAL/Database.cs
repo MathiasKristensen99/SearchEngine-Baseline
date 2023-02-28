@@ -19,15 +19,15 @@ namespace DB
             _connection.Open();
         }
 
-        public void Execute(string sql)
+        public async Task Execute(string sql)
         {
             var cmd = _connection.CreateCommand();
             cmd.CommandText = sql;
-            cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQueryAsync();
         }
 
         // key is the id of the document, the value is number of search words in the document
-        public List<KeyValuePair<int, int>> GetDocuments(List<int> wordIds)
+        public async Task<List<KeyValuePair<int, int>>> GetDocuments(List<int> wordIds)
         {
             var res = new List<KeyValuePair<int, int>>();
 
@@ -38,7 +38,7 @@ namespace DB
             var selectCmd = _connection.CreateCommand();
             selectCmd.CommandText = sql;
 
-            using (var reader = selectCmd.ExecuteReader())
+            using (var reader = await selectCmd.ExecuteReaderAsync())
             {
                 while (reader.Read())
                 {
@@ -67,23 +67,15 @@ namespace DB
 
             return res;
         }
-        /*
-         * SELECT wordId, COUNT(docId) as count
-FROM Occ
-where wordId in (2,3)
-GROUP BY wordId
-ORDER BY COUNT(docId) DESC;
-        */
 
-
-        public Dictionary<string, int> GetAllWords()
+        public async Task<Dictionary<string, int>> GetAllWords()
         {
             Dictionary<string, int> res = new Dictionary<string, int>();
       
             var selectCmd = _connection.CreateCommand();
             selectCmd.CommandText = "SELECT * FROM word";
 
-            using (var reader = selectCmd.ExecuteReader())
+            using (var reader = await selectCmd.ExecuteReaderAsync())
             {
                 while (reader.Read())
                 {
@@ -95,15 +87,15 @@ ORDER BY COUNT(docId) DESC;
             }
             return res;
         }
-
-        public List<string> GetDocDetails(List<int> docIds)
+        
+        public async Task<List<string>> GetDocDetails(List<int> docIds)
         {
             List<string> res = new List<string>();
 
             var selectCmd = _connection.CreateCommand();
             selectCmd.CommandText = "SELECT * FROM document where id in " + AsString(docIds);
 
-            using (var reader = selectCmd.ExecuteReader())
+            using (var reader = await selectCmd.ExecuteReaderAsync())
             {
                 while (reader.Read())
                 {

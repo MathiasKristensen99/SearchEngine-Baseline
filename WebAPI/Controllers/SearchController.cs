@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.Logic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,10 +26,11 @@ namespace WebAPI.Controllers
 
         // GET api/<SearchController>/5
         [HttpGet("{input}")]
-        public List<string> GetSearchResult(string input)
+        public async Task<SearchResult> GetSearchResult(string input)
         {
             var wordIds = new List<int>();
             var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var result = new SearchResult();
 
             foreach (var word in searchTerms)
             {
@@ -39,7 +41,9 @@ namespace WebAPI.Controllers
                 }
             }
 
-            var docIds = _searchLogic.GetDocuments(wordIds);
+            DateTime start = DateTime.Now;
+
+            var docIds = await _searchLogic.GetDocuments(wordIds);
 
             var top10 = new List<int>();
             foreach (var p in docIds.GetRange(0, Math.Min(10, docIds.Count)))
@@ -49,7 +53,15 @@ namespace WebAPI.Controllers
 
             int idx = 0;
 
-            return _searchLogic.GetDocumentDetails(top10);
+            foreach (var p in await _searchLogic.GetDocumentDetails(top10))
+            {
+                result.Documents.Add(new Document { Id = idx + 1, NumberOfOccurrences = docIds[idx].Value, Path = p });
+                idx++;
+            }
+
+            result.ElapsedMilliseconds = (DateTime.Now - start).TotalMilliseconds;
+
+            return result;
         }
 
         // POST api/<SearchController>

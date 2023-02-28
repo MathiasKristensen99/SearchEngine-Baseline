@@ -14,7 +14,9 @@ namespace Logic
         public SearchLogic(IDatabase database)
         {
             _mDatabase = database;
-            mWords = _mDatabase.GetAllWords();
+            var wordTask = _mDatabase.GetAllWords();
+            wordTask.Wait();
+            mWords = wordTask.Result;
         }
 
         public int GetIdOf(string word)
@@ -24,14 +26,14 @@ namespace Logic
             return -1;
         }
 
-        public List<KeyValuePair<int, int>> GetDocuments(List<int> wordIds)
+        public async Task<List<KeyValuePair<int, int>>> GetDocuments(List<int> wordIds)
         {
-            return _mDatabase.GetDocuments(wordIds);
+            return await _mDatabase.GetDocuments(wordIds);
         }
 
-        public List<string> GetDocumentDetails(List<int> docIds)
+        public async Task<List<string>> GetDocumentDetails(List<int> docIds)
         {
-            return _mDatabase.GetDocDetails(docIds);
+            return await _mDatabase.GetDocDetails(docIds);
         }
     }
 }
