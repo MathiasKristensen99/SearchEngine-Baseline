@@ -15,6 +15,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
 builder.Services.AddSingleton<IDatabase, Database>();
 
+builder.Services.AddCors(options => options
+    .AddPolicy("dev-policy", policyBuilder =>
+        policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +30,8 @@ var app = builder.Build();
 }
 
 //app.UseHttpsRedirection();
+
+app.UseCors("dev-policy");
 
 app.UseAuthorization();
 
