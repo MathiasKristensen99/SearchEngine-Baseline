@@ -9,5 +9,11 @@ services:
       - 9000:80
     volumes:
       - C:/GitHub/SearchEngine-Baseline/WebAPI/Data:/data 
-  
+  angular:
+    build:
+      context: ./SearchEngine-Frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - 9001:80
+    
     
