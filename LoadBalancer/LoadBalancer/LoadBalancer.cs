@@ -4,6 +4,7 @@ public class LoadBalancer : ILoadBalancer
 {
     private static ILoadBalancer instance;
     private LoadBalancer() { }
+    private Dictionary<Guid, string> services = new ();
 
     public static ILoadBalancer getInstance()
     {
@@ -18,14 +19,18 @@ public class LoadBalancer : ILoadBalancer
         throw new NotImplementedException();
     }
 
-    public int AddService(string url)
+    public Guid AddService(string url)
     {
-        throw new NotImplementedException();
+        var id = Guid.NewGuid();
+        services.Add(id,url);
+        return id;
+
     }
 
-    public int RemoveService(int id)
+    public Guid RemoveService(Guid id)
     {
-        throw new NotImplementedException();
+        services.Remove(id);
+        return id;
     }
 
     public ILoadBalancerStrategy GetActiveStrategy()

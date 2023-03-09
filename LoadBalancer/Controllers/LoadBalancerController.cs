@@ -1,3 +1,4 @@
+using LoadBalancer.LoadBalancer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoadBalancer.Controllers;
@@ -6,10 +7,19 @@ namespace LoadBalancer.Controllers;
 [Route("api/[controller]")]
 public class LoadBalancerController : ControllerBase
 {
+    private readonly ILoadBalancer _loadBalancer;
     [HttpGet]
-    public IActionResult Search()
+    public IActionResult Search(string terms, int numberOfResults)
     {
-        //TODO - Implementation Here
-        return null;
+        // Hent addresse (url: string)
+        var nextServiceUrl = _loadBalancer.NextService();
+        
+        // Brug Service URL
+        using HttpClient client = new();
+        client.BaseAddress = new Uri(nextServiceUrl);
+        Task<string> task = client.GetStringAsync("api/search/" + terms);
+        task.Wait();
+        string searchResult = task.Result;
+        return Ok(searchResult);
     }
 }
