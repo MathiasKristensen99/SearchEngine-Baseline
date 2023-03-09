@@ -6,5 +6,10 @@ namespace LoadBalancer.Controllers;
 [Route("api/[controller]")]
 public class LoadBalancerController : ControllerBase
 {
-    
+    [HttpGet]
+    public IActionResult Search()
+    {
+        //TODO - Implementation Here
+        return null;
+    }
 }
