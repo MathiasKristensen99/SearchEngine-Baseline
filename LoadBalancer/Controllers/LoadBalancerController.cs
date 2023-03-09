@@ -7,7 +7,8 @@ namespace LoadBalancer.Controllers;
 [Route("api/[controller]")]
 public class LoadBalancerController : ControllerBase
 {
-    private readonly ILoadBalancer _loadBalancer;
+    private readonly ILoadBalancer _loadBalancer = LoadBalancer.LoadBalancer.getInstance();
+
     [HttpGet]
     public IActionResult Search(string terms, int numberOfResults)
     {

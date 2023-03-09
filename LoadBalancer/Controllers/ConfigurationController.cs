@@ -6,13 +6,14 @@ namespace LoadBalancer.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 
-public class ConfigController : ControllerBase
+public class ConfigurationController : ControllerBase
 {
     private readonly ILoadBalancer _loadBalancer = LoadBalancer.LoadBalancer.getInstance();
-    
+
     [HttpPost]
-    public void RegisterService(string url)
+    public Guid AddService([FromQuery] string url)
     {
-        _loadBalancer.AddService(url);
+        Console.WriteLine("Adding service at URL " + url);
+        return LoadBalancer.LoadBalancer.getInstance().AddService(url);
     }
 }

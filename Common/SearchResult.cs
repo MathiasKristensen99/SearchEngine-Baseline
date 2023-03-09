@@ -11,5 +11,6 @@ namespace Common
         public double ElapsedMilliseconds { get; set; }
         public List<string> IgnoredTerms { get; set; } = new List<string>();
         public List<Document> Documents { get; set; } = new List<Document>();
+        public string HostName { get; set; }
     }
 }

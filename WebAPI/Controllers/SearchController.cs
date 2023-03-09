@@ -61,6 +61,8 @@ namespace WebAPI.Controllers
 
             result.ElapsedMilliseconds = (DateTime.Now - start).TotalMilliseconds;
 
+            result.HostName = Environment.MachineName;
+
             return result;
         }
 

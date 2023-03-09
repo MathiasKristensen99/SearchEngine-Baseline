@@ -2,24 +2,22 @@ namespace LoadBalancer.LoadBalancer;
 
 public class RoundRobinStrategy : ILoadBalancerStrategy
 {
-    private readonly Dictionary<Guid, string> _services;
     private int _currentServiceIndex;
 
-    public RoundRobinStrategy(Dictionary<Guid, string> services)
+    public RoundRobinStrategy()
     {
-        _services = services;
         _currentServiceIndex = 0;
     }
 
-    public string NextService()
+    public string NextService(Dictionary<Guid, string> services)
     {
-        if (_services.Count == 0)
+        if (services.Count == 0)
         {
             return null;
         }
         
-        var service = _services.ElementAt(_currentServiceIndex);
-        _currentServiceIndex = (_currentServiceIndex + 1) % _services.Count;
+        var service = services.ElementAt(_currentServiceIndex);
+        _currentServiceIndex = (_currentServiceIndex + 1) % services.Count;
         return service.Value;
     }
 }
