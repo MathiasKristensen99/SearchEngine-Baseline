@@ -3,8 +3,17 @@ namespace LoadBalancer.LoadBalancer;
 public class LoadBalancer : ILoadBalancer
 {
     private static ILoadBalancer instance;
-    private LoadBalancer() { }
-    private Dictionary<Guid, string> services = new ();
+    private ILoadBalancerStrategy _roundRobinStrategy;
+    private ILoadBalancerStrategy _activeStrategy;
+    private Dictionary<Guid, string> _services;
+
+    private LoadBalancer()
+    {
+        _services = new Dictionary<Guid, string>();
+        _roundRobinStrategy = new RoundRobinStrategy(_services);
+        // Default strategy - Round Robin
+        _activeStrategy = _roundRobinStrategy;
+    }
 
     public static ILoadBalancer getInstance()
     {
@@ -22,14 +31,14 @@ public class LoadBalancer : ILoadBalancer
     public Guid AddService(string url)
     {
         var id = Guid.NewGuid();
-        services.Add(id,url);
+        _services.Add(id, url);
         return id;
 
     }
 
     public Guid RemoveService(Guid id)
     {
-        services.Remove(id);
+        _services.Remove(id);
         return id;
     }
 
@@ -40,11 +49,17 @@ public class LoadBalancer : ILoadBalancer
 
     public void SetActiveStrategy(ILoadBalancerStrategy strategy)
     {
-        throw new NotImplementedException();
+        _activeStrategy = strategy;
     }
 
     public string NextService()
     {
-        throw new NotImplementedException();
+        return _activeStrategy.NextService();
+    }
+    
+    public void UseRoundRobinStrategy()
+    {
+        // Set the active strategy to the round-robin strategy.
+        _activeStrategy = _roundRobinStrategy;
     }
 }
