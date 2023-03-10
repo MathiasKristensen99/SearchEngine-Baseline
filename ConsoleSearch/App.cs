@@ -30,12 +30,12 @@ namespace ConsoleSearch
             {
                 if (choice == 1)
                 {
-                    restClient.Post(new RestRequest("api/Configuration/SetStrategy?selection=" + 1, Method.Post));
+                    restClient.Put(new RestRequest("api/Configuration/SetStrategy?selection=" + 1, Method.Put));
                     RunSearch();
                 }
                 if (choice == 2)
                 {
-                    restClient.Post(new RestRequest("api/Configuration/SetStrategy?selection=" + 2, Method.Post));
+                    restClient.Put(new RestRequest("api/Configuration/SetStrategy?selection=" + 2, Method.Put));
                     RunSearch();
                 }
                 else
