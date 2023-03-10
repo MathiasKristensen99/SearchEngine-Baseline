@@ -16,7 +16,7 @@ services:
     volumes:
       - ./WebAPI/Data:/data 
     deploy:
-      replicas: 2
+      replicas: 3
   angular:
     build:
       context: ./SearchEngine-Frontend

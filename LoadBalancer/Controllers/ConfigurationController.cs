@@ -17,7 +17,7 @@ public class ConfigurationController : ControllerBase
         return LoadBalancer.LoadBalancer.getInstance().AddService(url);
     }
 
-    [HttpPost("SetStrategy")]
+    [HttpPut("SetStrategy")]
     public void SetStrategy([FromQuery] int selection)
     {
         Console.WriteLine("Strategy changed to " + selection);

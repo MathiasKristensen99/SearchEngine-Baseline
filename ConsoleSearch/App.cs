@@ -16,41 +16,51 @@ namespace ConsoleSearch
         {
             //SearchLogic mSearchLogic = new SearchLogic(new Database());
             Console.WriteLine("Console Search");
-            Console.WriteLine();
-
             ShowMenu();
         }
 
         private void ShowMenu()
         {
+            Console.WriteLine("Please select a Load-Balancing strategy:");
+            Console.WriteLine("1. Round Robin Strategy");
+            Console.WriteLine("2. Least Connected Strategy");
+
             int choice;
             while ((choice = GetSelection()) != 0)
             {
                 if (choice == 1)
                 {
-                    restClient.Post(new RestRequest("api/Configuration/SetStrategy?selection=" + choice, Method.Post));
-                    
+                    restClient.Post(new RestRequest("api/Configuration/SetStrategy?selection=" + 1, Method.Post));
                     RunSearch();
                 }
                 if (choice == 2)
                 {
+                    restClient.Post(new RestRequest("api/Configuration/SetStrategy?selection=" + 2, Method.Post));
                     RunSearch();
+                }
+                else
+                {
+                    Console.WriteLine("Please type one of the numbers above.");
                 }
             }
         }
 
         private void RunSearch()
         {
-            using HttpClient _client = new();
-            _client.BaseAddress = new Uri("http://localhost:9002/");
+            using HttpClient client = new();
+            client.BaseAddress = new Uri("http://localhost:9002/");
             
             while (true)
             {
-                Console.WriteLine("enter search terms - q for quit");
+                Console.WriteLine("Enter Search Terms - Q for Quit");
                 string input = Console.ReadLine() ?? string.Empty;
-                if (input.Equals("q")) break;
+                if (input.ToLower().Equals("q"))
+                {
+                    ShowMenu();
+                    break;
+                }
             
-                Task<string> task = _client.GetStringAsync("api/LoadBalancer?terms=" + input);
+                Task<string> task = client.GetStringAsync("api/LoadBalancer?terms=" + input);
                 task.Wait();
 
                 string searchResult = task.Result;

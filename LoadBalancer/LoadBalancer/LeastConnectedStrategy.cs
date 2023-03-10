@@ -1,9 +1,9 @@
-namespace LoadBalancer.LoadBalancer;
+﻿namespace LoadBalancer.LoadBalancer;
 
-public class RoundRobinStrategy : ILoadBalancerStrategy
+public class LeastConnectedStrategy : ILoadBalancerStrategy
 {
     private int _currentServiceIndex;
-    public RoundRobinStrategy()
+    public LeastConnectedStrategy()
     {
         _currentServiceIndex = 0;
     }

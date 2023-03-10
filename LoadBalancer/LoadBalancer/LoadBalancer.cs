@@ -4,6 +4,7 @@ public class LoadBalancer : ILoadBalancer
 {
     private static ILoadBalancer instance;
     private ILoadBalancerStrategy _roundRobinStrategy;
+    private ILoadBalancerStrategy _leastConnectedStrategy;
     private ILoadBalancerStrategy _activeStrategy;
     private Dictionary<Guid, string> _services;
     private List<ILoadBalancerStrategy> _allStrategies = new ();
@@ -12,10 +13,11 @@ public class LoadBalancer : ILoadBalancer
     {
         _services = new Dictionary<Guid, string>();
         _roundRobinStrategy = new RoundRobinStrategy();
+        _leastConnectedStrategy = new LeastConnectedStrategy();
         // Default strategy - Round Robin
-        _activeStrategy = _roundRobinStrategy;
-
+        _activeStrategy = _leastConnectedStrategy;
         _allStrategies.Add(_roundRobinStrategy);
+        _allStrategies.Add(_leastConnectedStrategy);
     }
 
     public static ILoadBalancer getInstance()
@@ -46,30 +48,38 @@ public class LoadBalancer : ILoadBalancer
 
     public ILoadBalancerStrategy GetActiveStrategy()
     {
-        throw new NotImplementedException();
+        return _activeStrategy;
     }
 
     public void SetActiveStrategy(int selection)
     {
         if (selection == 1)
         {
-            UseRoundRobinStrategy();
+            UseLeastConnectedStrategy();
         }
-
         if (selection == 2)
         {
             UseRoundRobinStrategy();
+            
         }
     }
 
     public string NextService()
     {
-        return _activeStrategy.NextService(GetAllServices());
+        var nextService = _activeStrategy.NextService(GetAllServices());
+        Console.WriteLine(nextService);
+        return nextService;
     }
     
-    public void UseRoundRobinStrategy()
+    private void UseRoundRobinStrategy()
     {
         // Set the active strategy to the round-robin strategy.
         _activeStrategy = _roundRobinStrategy;
+    }
+
+    private void UseLeastConnectedStrategy()
+    {
+        // Set the active strategy to the least-connected strategy.
+        _activeStrategy = _leastConnectedStrategy;
     }
 }
