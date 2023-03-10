@@ -13,7 +13,9 @@ export class AppComponent {
   title = 'SearchEngine-Frontend';
 
   searchResult: Observable<Search> | undefined;
-  results: Document[] | undefined;
+  results: Document[] | undefined
+
+  hostName: string | undefined
 
   searchTerm: string | undefined;
 
@@ -25,6 +27,7 @@ export class AppComponent {
     this._searchService.getSearchResult(searchTerm).subscribe(value => {
       console.log(value.documents);
       this.results = value.documents;
+      this.hostName = value.hostName;
     });
   };
 
