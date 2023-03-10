@@ -16,4 +16,11 @@ public class ConfigurationController : ControllerBase
         Console.WriteLine("Adding service at URL " + url);
         return LoadBalancer.LoadBalancer.getInstance().AddService(url);
     }
+
+    [HttpPost("SetStrategy")]
+    public void SetStrategy([FromQuery] int selection)
+    {
+        Console.WriteLine("Strategy changed to " + selection);
+        LoadBalancer.LoadBalancer.getInstance().SetActiveStrategy(selection);
+    }
 }

@@ -6,6 +6,7 @@ public class LoadBalancer : ILoadBalancer
     private ILoadBalancerStrategy _roundRobinStrategy;
     private ILoadBalancerStrategy _activeStrategy;
     private Dictionary<Guid, string> _services;
+    private List<ILoadBalancerStrategy> _allStrategies = new ();
 
     private LoadBalancer()
     {
@@ -13,6 +14,8 @@ public class LoadBalancer : ILoadBalancer
         _roundRobinStrategy = new RoundRobinStrategy();
         // Default strategy - Round Robin
         _activeStrategy = _roundRobinStrategy;
+
+        _allStrategies.Add(_roundRobinStrategy);
     }
 
     public static ILoadBalancer getInstance()
@@ -46,9 +49,17 @@ public class LoadBalancer : ILoadBalancer
         throw new NotImplementedException();
     }
 
-    public void SetActiveStrategy(ILoadBalancerStrategy strategy)
+    public void SetActiveStrategy(int selection)
     {
-        _activeStrategy = strategy;
+        if (selection == 1)
+        {
+            UseRoundRobinStrategy();
+        }
+
+        if (selection == 2)
+        {
+            UseRoundRobinStrategy();
+        }
     }
 
     public string NextService()

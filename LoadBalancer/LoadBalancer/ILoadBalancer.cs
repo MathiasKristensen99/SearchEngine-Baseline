@@ -6,6 +6,6 @@ public interface ILoadBalancer
     public Guid AddService(string url);
     public Guid RemoveService(Guid id);
     public ILoadBalancerStrategy GetActiveStrategy();
-    public void SetActiveStrategy(ILoadBalancerStrategy strategy);
+    public void SetActiveStrategy(int selection);
     public string NextService();
 }
