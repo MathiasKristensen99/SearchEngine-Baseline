@@ -40,7 +40,7 @@ public class LeastConnectedStrategy : ILoadBalancerStrategy
             }
         }
 
-        Console.WriteLine(choosenService.Connections);
+        Console.WriteLine("Used service:" + choosenService.Url + " Connections: " + choosenService.Connections);
 
         return choosenService.Url;
     }
