@@ -1,20 +1,47 @@
-﻿namespace LoadBalancer.LoadBalancer;
+﻿using System;
+
+namespace LoadBalancer.LoadBalancer;
 
 public class LeastConnectedStrategy : ILoadBalancerStrategy
 {
-    private int _currentServiceIndex;
-    public LeastConnectedStrategy()
+    public List<Service> _services= new List<Service>();
+    public LeastConnectedStrategy(Dictionary<Guid, string> services)
     {
-        _currentServiceIndex = 0;
+        foreach (var service in services)
+        {
+            _services.Add(new Service { Connections = 0, Url = service.Value});
+        }
     }
     public string NextService(Dictionary<Guid, string> services)
     {
-        if (services.Count == 0)
-        {
-            return null;
+        int minConnections = int.MaxValue;
+        List<Service> list = new List<Service>();
+
+        foreach(var service in _services) {
+            if(service.Connections < minConnections)
+            {
+                minConnections = service.Connections;
+                list.Clear();
+            }
+
+            if (service.Connections == minConnections) {
+                list.Add(service);
+            }
         }
-        var service = services.ElementAt(_currentServiceIndex);
-        _currentServiceIndex = (_currentServiceIndex + 1) % services.Count;
-        return service.Value;
+
+        var random = new Random();
+        int index = random.Next(list.Count);
+        var choosenService = list[index];
+
+        foreach (var service in _services) {
+            if (service.Url.Equals(choosenService.Url))
+            {
+                service.Connections++;
+            }
+        }
+
+        Console.WriteLine(choosenService.Connections);
+
+        return choosenService.Url;
     }
 }

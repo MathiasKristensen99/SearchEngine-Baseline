@@ -13,7 +13,7 @@ public class LoadBalancer : ILoadBalancer
     {
         _services = new Dictionary<Guid, string>();
         _roundRobinStrategy = new RoundRobinStrategy();
-        _leastConnectedStrategy = new LeastConnectedStrategy();
+        _leastConnectedStrategy = new LeastConnectedStrategy(_services);
         // Default strategy - Round Robin
         _activeStrategy = _leastConnectedStrategy;
         _allStrategies.Add(_roundRobinStrategy);
@@ -55,12 +55,11 @@ public class LoadBalancer : ILoadBalancer
     {
         if (selection == 1)
         {
-            UseLeastConnectedStrategy();
+            UseRoundRobinStrategy();
         }
         if (selection == 2)
         {
-            UseRoundRobinStrategy();
-            
+            UseLeastConnectedStrategy();
         }
     }
 
@@ -79,6 +78,7 @@ public class LoadBalancer : ILoadBalancer
 
     private void UseLeastConnectedStrategy()
     {
+        _leastConnectedStrategy = new LeastConnectedStrategy(_services);
         // Set the active strategy to the least-connected strategy.
         _activeStrategy = _leastConnectedStrategy;
     }
