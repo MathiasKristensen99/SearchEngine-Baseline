@@ -15,7 +15,7 @@ public class LoadBalancer : ILoadBalancer
         _roundRobinStrategy = new RoundRobinStrategy();
         _leastConnectedStrategy = new LeastConnectedStrategy(_services);
         // Default strategy - Round Robin
-        _activeStrategy = _leastConnectedStrategy;
+        _activeStrategy = _roundRobinStrategy;
         _allStrategies.Add(_roundRobinStrategy);
         _allStrategies.Add(_leastConnectedStrategy);
     }
