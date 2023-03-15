@@ -7,8 +7,14 @@ public class LoadBalancer : ILoadBalancer
     private ILoadBalancerStrategy _leastConnectedStrategy;
     private ILoadBalancerStrategy _activeStrategy;
     private Dictionary<Guid, string> _services;
-    private List<ILoadBalancerStrategy> _allStrategies = new ();
+    private List<ILoadBalancerStrategy> _allStrategies = new();
 
+    /**
+     * Private constructor to prevent direct instantiation.
+     * Initializes the dictionary of services and adds the available load balancing               
+       strategies.
+     * Sets the default active strategy to be the least connected strategy.
+     */
     private LoadBalancer()
     {
         _services = new Dictionary<Guid, string>();
@@ -20,6 +26,11 @@ public class LoadBalancer : ILoadBalancer
         _allStrategies.Add(_leastConnectedStrategy);
     }
 
+    /**
+     * Returns the singleton instance of the LoadBalancer class.
+     *
+     * @return The singleton instance of the LoadBalancer class.
+     */
     public static ILoadBalancer getInstance()
     {
         if (instance == null)
@@ -28,11 +39,24 @@ public class LoadBalancer : ILoadBalancer
         }
         return instance;
     }
+
+    /**
+     * Returns a dictionary containing all available services.
+     *
+     * @return A dictionary containing all available services.
+     */
     public Dictionary<Guid, string> GetAllServices()
     {
         return _services;
     }
 
+    /**
+     * Adds a new service to the dictionary of available services.
+     * Generates a new GUID to use as the key for the new service.
+     *
+     * @param url The URL of the new service.
+     * @return The GUID assigned to the new service.
+     */
     public Guid AddService(string url)
     {
         var id = Guid.NewGuid();
@@ -40,17 +64,35 @@ public class LoadBalancer : ILoadBalancer
         return id;
     }
 
+    /**
+     * Removes a service from the dictionary of available services.
+     *
+     * @param id The GUID of the service to remove.
+     * @return The GUID of the service that was removed.
+     */
     public Guid RemoveService(Guid id)
     {
         _services.Remove(id);
         return id;
     }
 
+    /**
+     * Returns the active load balancing strategy.
+     *
+     * @return The active load balancing strategy.
+     */
     public ILoadBalancerStrategy GetActiveStrategy()
     {
         return _activeStrategy;
     }
 
+    /**
+     * Sets the active load balancing strategy based on the specified selection.
+     * 1 - Round Robin strategy
+     * 2 - Least Connected strategy
+     *
+     * @param selection The selection of the desired strategy.
+     */
     public void SetActiveStrategy(int selection)
     {
         if (selection == 1)
@@ -63,13 +105,21 @@ public class LoadBalancer : ILoadBalancer
         }
     }
 
+    /**
+     * Selects the next service to use for load balancing using the active
+       strategy.
+     * Increases the number of connections to the selected service in the services
+       dictionary.
+     * Returns the URL of the selected service.
+     *
+     * @return The URL of the selected service.
+     */
     public string NextService()
     {
         var nextService = _activeStrategy.NextService(GetAllServices());
         Console.WriteLine(nextService);
         return nextService;
     }
-    
     private void UseRoundRobinStrategy()
     {
         // Set the active strategy to the round-robin strategy.
