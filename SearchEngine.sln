@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{CEE348A8-C66C-4408-B842-691C7D8AB1F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadBalancer", "LoadBalancer\LoadBalancer.csproj", "{781E0622-9DF5-4FC3-BE42-804FDCF7BCFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoadBalancer", "LoadBalancer\LoadBalancer.csproj", "{781E0622-9DF5-4FC3-BE42-804FDCF7BCFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceAPI", "UserServiceAPI\UserServiceAPI.csproj", "{2D1984D0-890E-40B9-904C-260F6C86AD1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{781E0622-9DF5-4FC3-BE42-804FDCF7BCFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{781E0622-9DF5-4FC3-BE42-804FDCF7BCFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{781E0622-9DF5-4FC3-BE42-804FDCF7BCFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D1984D0-890E-40B9-904C-260F6C86AD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D1984D0-890E-40B9-904C-260F6C86AD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D1984D0-890E-40B9-904C-260F6C86AD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D1984D0-890E-40B9-904C-260F6C86AD1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
