@@ -6,9 +6,7 @@ services:
       context: .
       dockerfile: "LoadBalancer/Dockerfile"
     ports:
-      - 9002:80
-    depends_on:
-      - api
+      - 9000:80
   api:
     build:
       context: .
@@ -17,6 +15,8 @@ services:
       - ./WebAPI/Data:/data 
     deploy:
       replicas: 3
+    depends_on:
+      - load-balancer
   angular:
     build:
       context: ./SearchEngine-Frontend
@@ -29,10 +29,12 @@ services:
     build:
       context: .
       dockerfile: "UserServiceAPI/Dockerfile"
-    ports:
-      - 9000:80
     volumes:
       - ./UserServiceAPI/Data:/data
+    deploy:
+      replicas: 3
+    depends_on:
+      - load-balancer
 
     
     
