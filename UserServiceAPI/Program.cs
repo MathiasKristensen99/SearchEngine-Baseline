@@ -1,5 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RestSharp;
+using System;
 using UserServiceAPI.Repository;
+using static System.Net.WebRequestMethods;
+var restClient = new RestClient("http://load-balancer");
+
+restClient.Post(new RestRequest("api/Configuration?url=http://" + Environment.MachineName, Method.Post));
+
+Console.WriteLine("Hostname: " + Environment.MachineName);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +22,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlite("Data Source=/data/userDatabase.db"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-
 
 builder.Services.AddCors(options => options
     .AddPolicy("dev-policy", policyBuilder =>
