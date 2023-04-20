@@ -25,5 +25,14 @@ services:
       - 9001:80
     depends_on:
       - load-balancer
+  userservice:
+    build:
+      context: .
+      dockerfile: "UserServiceAPI/Dockerfile"
+    ports:
+      - 9000:80
+    volumes:
+      - ./UserServiceAPI/Data:/data
+
     
     
