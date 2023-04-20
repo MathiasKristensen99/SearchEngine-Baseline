@@ -3,6 +3,9 @@ pipeline {
 	triggers {
 		pollSCM("* * * * *")
 	}
+	environment {
+        DEPLOY_NUMBER = "${BUILD_NUMBER}"
+    }
 	stages {
 		stage("Build") {
 			steps{
@@ -16,6 +19,11 @@ pipeline {
                     sh 'docker login -u $DH_USERNAME -p $DH_PASSWORD'
                     sh "docker compose push"
                 }
+            }
+        }
+		stage("Deploy") {
+            steps {
+                build job: 'RPS-Deploy', parameters: [[$class: 'StringParameterValue', name: 'DEPLOY_NUMBER', value: "${BUILD_NUMBER}"]]
             }
         }
 	}
