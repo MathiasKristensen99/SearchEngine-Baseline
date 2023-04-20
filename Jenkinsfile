@@ -5,8 +5,10 @@ pipeline {
 	}
 	stages {
 		stage("Build") {
-			sh "dotnet build"
-			sh "docker compose build"
+			steps{
+				sh "dotnet build"
+				sh "docker compose build"
+			}
 		}
 	}
 }
