@@ -10,7 +10,6 @@ var restClient = new RestClient("http://load-balancer");
 restClient.Post(new RestRequest("api/Configuration?url=http://" + Environment.MachineName, Method.Post));
 
 Console.WriteLine("Hostname: " + Environment.MachineName);
-Console.WriteLine("Hostname: " + Environment.MachineName);
 
 
 var builder = WebApplication.CreateBuilder(args);
