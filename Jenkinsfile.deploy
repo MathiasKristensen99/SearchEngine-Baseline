@@ -6,8 +6,7 @@ pipeline {
     stages {
         stage("Deploy") {
             steps {
-				sh DEPLOY_NUMBER
-				sh "docker compose down"
+                sh "docker compose down"
                 sh "docker compose up -d"
             }
         }
