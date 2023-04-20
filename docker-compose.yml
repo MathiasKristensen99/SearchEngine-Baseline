@@ -11,6 +11,7 @@ services:
     build:
       context: .
       dockerfile: "WebAPI/Dockerfile"
+    image: chrlindholm/search-engine-api:${DEPLOY_NUMBER}
     volumes:
       - ./WebAPI/Data:/data 
     deploy:
