@@ -23,10 +23,4 @@ public class LoadBalancerController : ControllerBase
         string searchResult = task.Result;
         return Ok(searchResult);
     }
-
-    [HttpPost]
-    public async Task<ActionResult> AddUser(string name, string email, string password)
-    {
-
-    }
 }
