@@ -11,6 +11,6 @@ export class SearchService {
   constructor(private _http: HttpClient) { }
 
   getSearchResult(input: string): Observable<Search> {
-    return this._http.get<Search>("http://localhost:9002/api/LoadBalancer?terms=" + input)
+    return this._http.get<Search>("http://localhost:9000/api/LoadBalancer?terms=" + input)
   }
 }
