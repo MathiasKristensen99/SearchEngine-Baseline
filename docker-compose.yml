@@ -33,12 +33,10 @@ services:
       context: .
       dockerfile: "UserServiceAPI/Dockerfile"
     image: chrlindholm/search-engine-userservice:${DEPLOY_NUMBER}
+    ports:
+      - 9002:80
     volumes:
       - ./UserServiceAPI/Data:/data
-    deploy:
-      replicas: 3
-    depends_on:
-      - load-balancer
 
     
     
