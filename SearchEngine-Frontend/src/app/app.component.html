@@ -1,28 +1,4 @@
-<div class="container-out">
-  <div class="container-in">
-    <div class="search-container">
-      <div class="search-engine">
-        <input
-          #search
-          type="input"
-          id="search-input"
-          autocomplete="off"
-          placeholder="Hit Enter to Search"
-          (keyup.enter)="getSearchResult(search.value)"
-
-        />
-        <button (click)="getSearchResult(search.value)">
-          Click
-        </button>
-      </div>
-      <div id="search-data">
-        <ul *ngFor="let documents of results">
-          <td>{{documents.id}}</td>
-          <td>{{documents.path}}</td>
-        </ul>
-      </div>
-      <p>Hostname: {{hostName}}</p>
-      <div id="search-results"></div>
-    </div>
-  </div>
-</div>
+<a routerLink="user/signup">Join  </a>
+<a routerLink="user/login">Login  </a>
+<a routerLink="search">Search  </a>
+<router-outlet></router-outlet>
