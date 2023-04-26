@@ -16,7 +16,10 @@ using static System.Net.WebRequestMethods;
 // Extensions: OpenTelemetry, OpenTelemetry.Exporter.Console, OpenTelemetry.Exporter.Zipkin
 Console.WriteLine("ServiceName = " + Assembly.GetExecutingAssembly().GetName().Name);
 using var traceProvider = Sdk.CreateTracerProviderBuilder()
-    .AddZipkinExporter()
+    .AddZipkinExporter(config =>
+    {
+        config.Endpoint = new Uri("http://zipkin");
+    })
     .AddConsoleExporter()
     .AddSource(DiagnosticsConfig.ActivitySource.Name)
     .SetResourceBuilder(
