@@ -31,7 +31,7 @@ using var traceProvider = Sdk.CreateTracerProviderBuilder()
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .Enrich.WithSpan()
-    .WriteTo.Seq("http://localhost:5341")
+    .WriteTo.Seq("http://seq")
     .WriteTo.Console()
     .CreateLogger();
 

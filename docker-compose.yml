@@ -21,6 +21,8 @@ services:
     image: chrlindholm/search-engine-load-balancer:${DEPLOY_NUMBER}
     ports:
       - 9000:80
+    depends_on:
+      - seq
   api:
     build:
       context: .
@@ -32,6 +34,7 @@ services:
       replicas: 3
     depends_on:
       - load-balancer
+      - seq
   angular:
     build:
       context: ./SearchEngine-Frontend
@@ -50,6 +53,8 @@ services:
       - 9002:80
     volumes:
       - ./UserServiceAPI/Data:/data
+    depends_on:
+      - seq
 volumes:
   rps_seq_data:
 
