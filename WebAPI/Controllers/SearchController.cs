@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet("{input}")]
         public async Task<SearchResult> GetSearchResult(string input)
         {
-            using var activity = Program.ActivitySource.StartActivity();
+            using var activity = DiagnosticsConfig.ActivitySource.StartActivity("GetSearchResult method called succesfully!");
             var wordIds = new List<int>();
             var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var result = new SearchResult();

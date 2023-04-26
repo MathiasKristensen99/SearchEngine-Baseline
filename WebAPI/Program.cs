@@ -11,20 +11,18 @@ using Serilog.Enrichers.Span;
 using WebAPI.DB;
 using WebAPI.Logic;
 
-// Monitoring and Tracing
-var serviceName = Assembly.GetExecutingAssembly().GetName().Name;
-var version = "1.0.0";
 
 // Configure Tracing
 // Extensions: OpenTelemetry, OpenTelemetry.Exporter.Console, OpenTelemetry.Exporter.Zipkin
+Console.WriteLine("ServiceName= " + Assembly.GetExecutingAssembly().GetName().Name);
 using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddZipkinExporter()
     .AddConsoleExporter()
-    .AddSource("SearchEngine.WebAPI")
+    .AddSource(DiagnosticsConfig.ActivitySource.Name)
     .SetResourceBuilder(
         ResourceBuilder
             .CreateDefault()
-            .AddService(serviceName: serviceName,serviceVersion: version)
+            .AddService(DiagnosticsConfig.ServiceName,DiagnosticsConfig.ActivitySource.Version)
     )
     .Build();
 
@@ -81,7 +79,10 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program
+public static class DiagnosticsConfig
 {
-    public static ActivitySource ActivitySource = new("SearchEngine.WebAPI", "1.0.0");
+    // Monitoring and Tracing
+    public static readonly string ServiceName = Assembly.GetExecutingAssembly().GetName().Name;
+    private const string Version = "1.0.0";
+    public static ActivitySource ActivitySource = new ActivitySource(ServiceName, Version);
 };
