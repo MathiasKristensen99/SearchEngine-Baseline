@@ -18,7 +18,7 @@ Console.WriteLine("ServiceName = " + Assembly.GetExecutingAssembly().GetName().N
 using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddZipkinExporter(config =>
     {
-        config.Endpoint = new Uri("http://zipkin");
+        config.Endpoint = new Uri("http://localhost:9411");
     })
     .AddConsoleExporter()
     .AddSource(DiagnosticsConfig.ActivitySource.Name)
