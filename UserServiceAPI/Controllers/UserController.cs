@@ -46,7 +46,7 @@ namespace UserServiceAPI.Controllers
             
             await _userRepository.AddUserAsync(user);
             
-            Log.Logger.Debug("Adding user named {user.Name} with ID #{user.Id}", user.Name, user.Id);
+            Log.Logger.Debug("Adding user with ID #" + user.Id);
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
