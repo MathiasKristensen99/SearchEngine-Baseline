@@ -23,6 +23,7 @@ services:
       - 9000:80
     depends_on:
       - seq
+      - zipkin
   api:
     build:
       context: .
@@ -35,6 +36,7 @@ services:
     depends_on:
       - load-balancer
       - seq
+      - zipkin
   angular:
     build:
       context: ./SearchEngine-Frontend
@@ -55,6 +57,7 @@ services:
       - ./UserServiceAPI/Data:/data
     depends_on:
       - seq
+      - zipkin
 volumes:
   rps_seq_data:
 
