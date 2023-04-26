@@ -1,5 +1,6 @@
 ﻿using Common;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using WebAPI.Logic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,6 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet("{input}")]
         public async Task<SearchResult> GetSearchResult(string input)
         {
+            using var activity = Program.ActivitySource.StartActivity();
             var wordIds = new List<int>();
             var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var result = new SearchResult();
@@ -62,6 +64,9 @@ namespace WebAPI.Controllers
             result.ElapsedMilliseconds = (DateTime.Now - start).TotalMilliseconds;
 
             result.HostName = Environment.MachineName;
+            
+            Console.WriteLine("Searched words: " + input);
+            Log.Logger.Debug("User has searched for {input}", input);
 
             return result;
         }

@@ -1,12 +1,44 @@
+using System.Diagnostics;
+using System.Reflection;
 using DB;
 using Logic;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using RestSharp;
+using Serilog;
+using Serilog.Enrichers.Span;
 using WebAPI.DB;
 using WebAPI.Logic;
 
+// Monitoring and Tracing
+var serviceName = Assembly.GetExecutingAssembly().GetName().Name;
+var version = "1.0.0";
 
+// Configure Tracing
+// Extensions: OpenTelemetry, OpenTelemetry.Exporter.Console, OpenTelemetry.Exporter.Zipkin
+using var traceProvider = Sdk.CreateTracerProviderBuilder()
+    .AddZipkinExporter()
+    .AddConsoleExporter()
+    .AddSource("SearchEngine.WebAPI")
+    .SetResourceBuilder(
+        ResourceBuilder
+            .CreateDefault()
+            .AddService(serviceName: serviceName,serviceVersion: version)
+    )
+    .Build();
+
+//Configure Logging
+//Extensions: Serilog, Serilog.Enrichers.Span, Serilog.Sinks.Console, Serilog.Sinks.Seq
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .Enrich.WithSpan()
+    .WriteTo.Seq("http://localhost:5341")
+    .WriteTo.Console()
+    .CreateLogger();
+
+// Rest Client
 var restClient = new RestClient("http://load-balancer");
-
 restClient.Post(new RestRequest("api/Configuration?url=http://" + Environment.MachineName, Method.Post));
 
 Console.WriteLine("Hostname: " + Environment.MachineName);
@@ -48,3 +80,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+    public static ActivitySource ActivitySource = new("SearchEngine.WebAPI", "1.0.0");
+};
