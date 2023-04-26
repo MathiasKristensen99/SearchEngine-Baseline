@@ -14,7 +14,7 @@ using WebAPI.Logic;
 
 // Configure Tracing
 // Extensions: OpenTelemetry, OpenTelemetry.Exporter.Console, OpenTelemetry.Exporter.Zipkin
-Console.WriteLine("ServiceName= " + Assembly.GetExecutingAssembly().GetName().Name);
+Console.WriteLine("ServiceName = " + Assembly.GetExecutingAssembly().GetName().Name);
 using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddZipkinExporter()
     .AddConsoleExporter()

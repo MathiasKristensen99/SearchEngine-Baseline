@@ -29,7 +29,8 @@ namespace WebAPI.Controllers
         [HttpGet("{input}")]
         public async Task<SearchResult> GetSearchResult(string input)
         {
-            using var activity = DiagnosticsConfig.ActivitySource.StartActivity("GetSearchResult method called succesfully!");
+            // NOT WORKING
+            // using var activity = DiagnosticsConfig.ActivitySource.StartActivity();
             var wordIds = new List<int>();
             var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             var result = new SearchResult();
@@ -65,8 +66,9 @@ namespace WebAPI.Controllers
 
             result.HostName = Environment.MachineName;
             
-            Console.WriteLine("Searched words: " + input);
-            Log.Logger.Debug("User has searched for {input}", input);
+            // Not printing anything
+            // Console.WriteLine("Searched words: " + input);
+            // Log.Logger.Debug("User has searched for {input}", input);
 
             return result;
         }
