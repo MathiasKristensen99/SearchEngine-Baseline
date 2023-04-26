@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Cryptography;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using UserServiceAPI.Model;
@@ -35,6 +36,12 @@ namespace UserServiceAPI.Controllers
             {
                 return NotFound();
             }
+            
+            using (Log.Logger.BeginTimedOperation("Running GetUserById method"))
+            {
+                Random rnd = new Random();
+                Thread.Sleep(rnd.Next(200, 1000));
+            };
             Log.Logger.Debug("Finding user with ID #{id}", id);
             return Ok(user);
         }
