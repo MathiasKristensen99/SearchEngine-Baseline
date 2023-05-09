@@ -28,6 +28,8 @@ export class SearchComponent {
       this.results = value.documents;
       this.hostName = value.hostName;
     });
+    this._searchService.saveHistory(searchTerm).subscribe(value => {
+    })
   };
 
 
