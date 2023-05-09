@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: "LoadBalancer/Dockerfile"
-    image: chrlindholm/search-engine-load-balancer:${DEPLOY_NUMBER}
+    #image: chrlindholm/search-engine-load-balancer:${DEPLOY_NUMBER}
     ports:
       - 9000:80
     depends_on:
@@ -28,7 +28,7 @@ services:
     build:
       context: .
       dockerfile: "WebAPI/Dockerfile"
-    image: chrlindholm/search-engine-api:${DEPLOY_NUMBER}
+    #image: chrlindholm/search-engine-api:${DEPLOY_NUMBER}
     volumes:
       - ./WebAPI/Data:/data 
     deploy:
@@ -41,7 +41,7 @@ services:
     build:
       context: ./SearchEngine-Frontend
       dockerfile: ./Dockerfile
-    image: chrlindholm/search-engine-angular:${DEPLOY_NUMBER}
+    #image: chrlindholm/search-engine-angular:${DEPLOY_NUMBER}
     ports:
       - 9001:80
     depends_on:
@@ -50,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: "UserServiceAPI/Dockerfile"
-    image: chrlindholm/search-engine-userservice:${DEPLOY_NUMBER}
+    #image: chrlindholm/search-engine-userservice:${DEPLOY_NUMBER}
     ports:
       - 9002:80
     volumes:
@@ -58,6 +58,14 @@ services:
     depends_on:
       - seq
       - zipkin
+  historyapi:
+    build:
+      context: .
+      dockerfile: "HistoryAPI/Dockerfile"
+    ports:
+      - 9003:80
+    volumes:
+      - .//HistoryAPI/Data:/data
 volumes:
   rps_seq_data:
 
