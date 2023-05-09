@@ -1,0 +1,15 @@
+.string-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.string-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+}
